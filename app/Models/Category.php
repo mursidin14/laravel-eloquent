@@ -10,6 +10,6 @@ class Category extends Model
    protected $table = 'categories';
    protected $primaryKey = 'id';
    protected $keyType = 'string';
-   protected $incrementing = false;
-   protected $timestamps = false;
+   public $incrementing = false;
+   public $timestamps = false;
 }
