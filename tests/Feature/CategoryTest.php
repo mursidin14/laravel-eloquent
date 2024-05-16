@@ -61,4 +61,20 @@ class CategoryTest extends TestCase
 
         self::assertTrue($result);
     }
+
+    public function testSelect()
+    {
+        for($i = 0; $i < 5; $i++) {
+            $category = new Category();
+            $category->id = "$i";
+            $category->name = "Category $i";
+            $category->save();
+        }
+
+        $categories = Category::query()->whereNull('description')->get();
+        self::assertEquals(5, $categories->count());
+        $categories->each(function ($category) {
+            self::assertNull($category->description);
+        });
+    }
 }
