@@ -21,4 +21,15 @@ class CommentTest extends TestCase
 
         self::assertNotNull($comment->id);
     }
+
+    public function testAttributeComment()
+    {
+        $comment = new Comment();
+        $comment->email = 'ari@gmail.com';
+        $comment->created_at = new \DateTime();
+        $comment->updated_at = new \DateTime();
+        $comment->save();
+
+        self::assertNotNull($comment->id);
+    }
 }
