@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Voucher;
 use Illuminate\Database\Seeder;
 
 class VoucherSeeder extends Seeder
@@ -13,6 +14,9 @@ class VoucherSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Voucher::create([
+            'name' => 'sample voucher',
+            'voucher_code' => '654321'
+        ]);
     }
 }
