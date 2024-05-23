@@ -50,7 +50,7 @@ class UuidsTest extends TestCase
     {
         $voucher = new Voucher();
         $voucher->name = 'sambal ji';
-        $voucher->is_active = true;
+        $voucher->is_active = true; 
         $total = $voucher->save();
 
         $total = Voucher::query()->active()->count();
