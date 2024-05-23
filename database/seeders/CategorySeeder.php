@@ -18,6 +18,7 @@ class CategorySeeder extends Seeder
         $category->id = 'FOOD';
         $category->name = 'food';
         $category->description = 'Food category';
+        $category->is_active = true;
         $category->save();
     }
 }
