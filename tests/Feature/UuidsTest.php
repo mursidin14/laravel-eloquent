@@ -45,4 +45,18 @@ class UuidsTest extends TestCase
         $voucher = Voucher::query()->withTrashed()->where('name', 'sample voucher')->first();
         self::assertNotNull($voucher);
     }
+
+    public function testScopeLocal()
+    {
+        $voucher = new Voucher();
+        $voucher->name = 'sambal ji';
+        $voucher->is_active = true;
+        $total = $voucher->save();
+
+        $total = Voucher::query()->active()->count();
+        self::assertEquals(1, $total);
+
+        $total = Voucher::query()->nonActive()->count();
+        self::assertEquals(0, $total);
+    }
 }
