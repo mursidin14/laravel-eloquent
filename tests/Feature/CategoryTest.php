@@ -5,7 +5,9 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Scopes\isActiveGlobalScope;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\CustomerSeeder;
 use Database\Seeders\ProductSeeder;
+use Database\Seeders\ReviewSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -174,5 +176,17 @@ class CategoryTest extends TestCase
         self::assertNotNull($product);
 
         self::assertCount(2, $product);
+    }
+
+    public function testHasManyThroug()
+    {
+        $this->seed([CategorySeeder::class, ProductSeeder::class, CustomerSeeder::class, ReviewSeeder::class]);
+
+        $category = Category::query()->find('FOOD');
+        self::assertNotNull($category);
+
+        $reviews = $category->reviews;
+        self::assertNotNull($reviews);
+        self::assertCount(2, $reviews);
     }
 }
