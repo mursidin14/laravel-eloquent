@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Product;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\ProductSeeder;
@@ -22,5 +23,21 @@ class ProductTest extends TestCase
         self::assertNotNull($category);
 
         self::assertEquals('FOOD', $category->id);
+    }
+
+    public function testHasOneOfMany()
+    {
+        $this->seed([CategorySeeder::class, ProductSeeder::class]);
+
+        $category = Category::query()->find('FOOD');
+        self::assertNotNull($category);
+
+        $cheapsetProduct = $category->cheapsetProduct;
+        self::assertNotNull($cheapsetProduct);
+        self::assertEquals('2', $cheapsetProduct->id);
+
+        $mostExpansiveProduct = $category->mostExpansiveProduct;
+        self::assertNotNull($mostExpansiveProduct);
+        self::assertEquals('1', $mostExpansiveProduct->id);
     }
 }

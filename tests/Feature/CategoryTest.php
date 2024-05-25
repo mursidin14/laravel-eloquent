@@ -29,7 +29,8 @@ class CategoryTest extends TestCase
         for($i = 0; $i < 10; $i++){
             $categories[] = [
                 'id' => "ID $i",
-                'name' => "Name $i"
+                'name' => "Name $i",
+                'is_active' => true,
             ];
         }
 
@@ -71,6 +72,7 @@ class CategoryTest extends TestCase
             $category = new Category();
             $category->id = "$i";
             $category->name = "Category $i";
+            $category->is_active = true;
             $category->save();
         }
 
@@ -87,7 +89,8 @@ class CategoryTest extends TestCase
         for($i = 0; $i < 10; $i++){
             $categories[] = [
                 "id" => "ID $i",
-                "name" => "Name"
+                "name" => "Name",
+                "is_active" => true
             ];
         }
 
@@ -170,6 +173,6 @@ class CategoryTest extends TestCase
         $product = $category->products;
         self::assertNotNull($product);
 
-        self::assertCount(1, $product);
+        self::assertCount(2, $product);
     }
 }
