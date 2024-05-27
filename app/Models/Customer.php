@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Support\Facades\Date;
 
 class Customer extends Model
 {
@@ -34,6 +36,11 @@ class Customer extends Model
 
     public function customerLikes(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'customers_likes_products', 'customer_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'customers_likes_products', 'customer_id', 'product_id')->withPivot('created_at');
+    }
+
+    public function customerLikesLastMont(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'customers_likes_products', 'customer_id', 'product_id')->withPivot('created_at')->wherePivot('created_at', '>=', Date::now()->addMonth(-1));
     }
 }

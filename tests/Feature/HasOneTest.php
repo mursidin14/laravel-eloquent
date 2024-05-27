@@ -68,4 +68,38 @@ class HasOneTest extends TestCase
         $products = $customer->customerLikes;
         self::assertCount(0, $products);
     }
+
+    public function testManyToManyAttribute()
+    {
+        $this->testManyToMany();
+
+        $customer = Customer::query()->find('UDIN');
+        $products = $customer->customerLikes;
+
+        foreach($products as $product){
+            $pivot = $product->pivot;
+
+            self::assertNotNull($pivot);
+            self::assertNotNull($pivot->customer_id);
+            self::assertNotNull($pivot->product_id);
+            self::assertNotNull($pivot->created_at);
+        }
+    }
+
+    public function testManyToManyCondition()
+    {
+        $this->testManyToMany();
+
+        $customer = Customer::query()->find('UDIN');
+        $products = $customer->customerLikesLastMont;
+
+        foreach($products as $product) {
+            $pivot = $product->pivot;
+
+            self::assertNotNull($pivot);
+            self::assertNotNull($pivot->customer_id);
+            self::assertNotNull($pivot->product_id);
+            self::assertNotNull($pivot->created_at);
+        }
+    }
 }
