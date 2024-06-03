@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Facades\Date;
 
 class Customer extends Model
@@ -42,5 +43,10 @@ class Customer extends Model
     public function customerLikesLastMont(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'customers_likes_products', 'customer_id', 'product_id')->withPivot('created_at')->wherePivot('created_at', '>=', Date::now()->addMonth(-1));
+    }
+
+    public function customerImage(): MorphOne
+    {
+        return $this->morphOne(Image::class, 'imageable');
     }
 }

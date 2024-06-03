@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Product;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\ImageSeeder;
 use Database\Seeders\ProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -39,5 +40,18 @@ class ProductTest extends TestCase
         $mostExpansiveProduct = $category->mostExpansiveProduct;
         self::assertNotNull($mostExpansiveProduct);
         self::assertEquals('1', $mostExpansiveProduct->id);
+    }
+
+    public function testPolimorphOne()
+    {
+        $this->seed([CategorySeeder::class, ProductSeeder::class, ImageSeeder::class]);
+
+        $product = Product::query()->find('1');
+        self::assertNotNull($product);
+
+        $image = $product->productImage;
+        self::assertNotNull($image);
+
+        self::assertEquals('https://testing.com/image/2.png', $image->url);
     }
 }

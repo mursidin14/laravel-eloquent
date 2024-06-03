@@ -4,9 +4,11 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\Customer;
+use App\Models\Image;
 use App\Models\Product;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\CustomerSeeder;
+use Database\Seeders\ImageSeeder;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\VirtualAccountSeeder;
 use Database\Seeders\WalletSeeder;
@@ -96,10 +98,23 @@ class HasOneTest extends TestCase
         foreach($products as $product) {
             $pivot = $product->pivot;
 
-            self::assertNotNull($pivot);
+            self::assertNotNull($pivot); 
             self::assertNotNull($pivot->customer_id);
             self::assertNotNull($pivot->product_id);
             self::assertNotNull($pivot->created_at);
         }
+    }
+
+    public function testPolimorphOne()
+    {
+        $this->seed([CustomerSeeder::class, ImageSeeder::class]);
+
+        $customer = Customer::query()->find('UDIN');
+        self::assertNotNull($customer);
+
+        $image = $customer->customerImage;
+        self::assertNotNull($image);
+
+        self::assertEquals('https://testing.com/image/1.png', $image->url);
     }
 }
