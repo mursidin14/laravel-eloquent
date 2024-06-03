@@ -70,4 +70,18 @@ class ProductTest extends TestCase
             self::assertEquals($product->id, $comment->commentable_id);
         }
     }
+
+    public function testConditionOfMorphMany()
+    {
+        $this->seed([CategorySeeder::class, ProductSeeder::class, VoucherSeeder::class, CommentSeeder::class]);
+
+        $product = Product::query()->first();
+        self::assertNotNull($product);
+
+        $comment = $product->commentLatestMany;
+        self::assertNotNull($comment);
+
+        $comment = $product->commentOldestMany;
+        self::assertNotNull($comment);
+    }
 }
