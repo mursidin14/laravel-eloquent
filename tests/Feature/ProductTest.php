@@ -4,11 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Voucher;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\CommentSeeder;
 use Database\Seeders\ImageSeeder;
 use Database\Seeders\ProductSeeder;
+use Database\Seeders\TagSeeder;
 use Database\Seeders\VoucherSeeder;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -83,5 +86,25 @@ class ProductTest extends TestCase
 
         $comment = $product->commentOldestMany;
         self::assertNotNull($comment);
+    }
+
+    public function testManyToManyPolihMorp()
+    {
+        $this->seed([CategorySeeder::class, ProductSeeder::class, VoucherSeeder::class, TagSeeder::class]);
+
+        $product = Product::query()->find('1');
+        self::assertNotNull($product);
+        $tags = $product->tags;
+        self::assertCount(1, $tags);
+
+        foreach($tags as $tag) {
+            self::assertNotNull($tag->id);
+            self::assertNotNull($tag->name);
+
+            $voucher = Voucher::query()->first();
+            self::assertNotNull($voucher);
+            $tags = $voucher->tags;
+            self::assertCount(1, $tags);
+        }
     }
 }
