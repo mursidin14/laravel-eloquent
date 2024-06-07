@@ -117,4 +117,12 @@ class HasOneTest extends TestCase
 
         self::assertEquals('https://testing.com/image/1.png', $image->url);
     }
+
+    public function testEigerLoading()
+    {
+        $this->seed([CustomerSeeder::class, ImageSeeder::class, WalletSeeder::class]);
+
+        $customer = Customer::query()->with(['customerImage', 'wallet'])->find('UDIN');
+        self::assertNotNull($customer);
+    }
 }

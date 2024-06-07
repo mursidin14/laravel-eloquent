@@ -189,4 +189,14 @@ class CategoryTest extends TestCase
         self::assertNotNull($reviews);
         self::assertCount(2, $reviews);
     }
+
+    public function testAggregatingRelations()
+    {
+        $this->seed([CategorySeeder::class, ProductSeeder::class]);
+
+        $category = Category::query()->find('FOOD');
+        $total = $category->products()->count();
+
+        self::assertNotNull(2, $total);
+    }
 }
