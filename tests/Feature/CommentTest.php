@@ -15,6 +15,8 @@ class CommentTest extends TestCase
         $comment->email = 'anton@gmail.com';
         $comment->titel = 'good news';
         $comment->comment = 'good job bro';
+        $comment->commentable_id = '1';
+        $comment->commentable_type = 'product';
         $comment->created_at = new \DateTime();
         $comment->updated_at = new \DateTime();
         $comment->save();
@@ -26,6 +28,8 @@ class CommentTest extends TestCase
     {
         $comment = new Comment();
         $comment->email = 'ari@gmail.com';
+        $comment->commentable_id = '1';
+        $comment->commentable_type = 'product';
         $comment->created_at = new \DateTime();
         $comment->updated_at = new \DateTime();
         $comment->save();
